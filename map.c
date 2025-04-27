@@ -20,23 +20,28 @@ t_list	*fetch_map(int fd, t_info *info, t_vars *vars)
 	int		max_width;
 	int		line_width;
 
+	list = NULL;
 	max_width = -1;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (*line == '\n')
+		if (*line == '\n') // 앞에서 엔터 하나 제거안하면 여기서 걸림 이전 로직에서 엔터 제거 필요
 			error_exit("fetch_map error", vars);
-		tmp = ft_lstnew(ft_substr(line, 0, ft_strchr(line, '\n')));
-		line_width = ft_strlen(tmp);
+		tmp = ft_lstnew(ft_substr(line, 0, ft_strchr(line, '\n') - line));
+		line_width = ft_strlen(tmp->content);
 		if (line_width > max_width)
 			max_width = line_width;
-		ft_lstadd_back(&list, tmp);
+		if (list != NULL)
+			ft_lstadd_back(&list, tmp);
+		else
+			list = tmp;
 		free(line);
 	}
-	vars->info->x = max_width;
-	vars->info->y = ft_lstsize(list);
+	info->x = max_width;
+	info->y = ft_lstsize(list);
+	return (list);
 }
 
 void	free_map(char **map, int max_idx)
@@ -62,17 +67,18 @@ char	**map_allocate(int x, int y)
 	if (ret == NULL)
 	{
 		free(ret);
-		return (FAILURE);
+		return (0);
 	}
 	i = 0;
 	while (i < y)
 	{
-		ret[i] = (char *)malloc(x);
+		ret[i] = (char *)malloc(x + 1);
 		if (ret[i] == NULL)
 		{
 			free_map(ret, i);
-			return (FAILURE);
+			return (0);
 		}
+		i++;
 	}
 	return (ret);
 }
@@ -90,8 +96,11 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 	{
 		j = 0;
 		list_line = tmp_list->content;
-		while (j < x)
-			map[i][j] = list_line[j++];
+		while (j < x && list_line[j]) {
+			map[i][j] = list_line[j];
+			j++;
+		}
+		map[i][j] = '\0';
 		tmp_list = tmp_list->next;
 		i++;
 	}
@@ -112,12 +121,17 @@ int	check_space(t_info *info, int x, int y)
 		xx = x + dx[i];
 		yy = y + dy[i];
 		
-		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->y)
+		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->x)
+		{
+			i++;
 			continue;
-		if (!(info->map[xx][yy] == ' ' || info->map[xx][yy] == '1'))
-			return (FAILURE);
+		}
+		if (!(info->map[xx][yy] == ' ' || info->map[xx][yy] == '1')) {
+			return (0);
+		}
+		i++;
 	}
-	return (SUCCESS);
+	return (1);
 }
 
 int	check_zero(t_info *info, int x, int y)
@@ -134,12 +148,15 @@ int	check_zero(t_info *info, int x, int y)
 		xx = x + dx[i];
 		yy = y + dy[i];
 		
-		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->y)
-			return (FAILURE);
+		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->x) {
+			return (0);
+
+		}
 		if (info->map[xx][yy] == ' ')
-			return (FAILURE);
+			return (0);
+		i++;
 	}
-	return (SUCCESS);
+	return (1);
 }
 
 
@@ -156,16 +173,30 @@ int	map_check(t_info *info)
 	while (i < info->y)
 	{
 		j = 0;
-		while (j < info->x)
+		while (j < info->x && info->map[i][j])
 		{
-			if (info->map[i][j] == ' ' && !check_space(info, i, j))
-				return (FAILURE);
-			else if (info->map[i][j] == '0' && !check_zero(info, i, j))
-				return (FAILURE);
+			if (info->map[i][j] == '1') {
+				j++;
+				continue;
+
+			}
+			else if (info->map[i][j] == ' ')
+			{
+				if (!check_space(info, i, j))
+					return (0);
+			}
+			else if (info->map[i][j] == '0')
+			{
+				if (!check_zero(info, i, j))
+					return (0);
+			}
 			else if (info->map[i][j] != '1' && ++cnt > 1)
-				return (FAILURE);
+				return (0);
+			j++;
 		}
+		i++;
 	}
+	return (1);
 	
 }
 
@@ -173,61 +204,15 @@ int	read_map(int fd, t_info *info, t_vars *vars)
 {
 	t_list	*list;
 	char	**map;
-	int		i;
 
 	list = fetch_map(fd, info, vars);
-	map_allocate(vars->info->x, vars->info->y);
-	list_to_array_map(list, map, vars->info->x, vars->info->y);
-	if (!map_check(info))
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-/* -> 0, 1, N,S,E,W (4개 중 1개) 
-	    1111111111111111111111111
-	    1000000000110000000000001
-	    1011000001110000000000001
-	    1001000000000000000000001
-111111111011000001110000000000001
-100000000011000001110111111111111
-11110111111111011100000010001
-11110111111111011101010010001
-11000000110101011100000010001
-10000000000000001100000010001
-10000000000000001101010010001
-11000001110101011111011110N0111
-11110111 1110101 101111010001
-11111111 1111111 111111111111
-*/
-
-
-/*
-int	map_side_check(char **map, int x, int y)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < y) {
-		j = 0;
-		if (i == 0 || i == y - 1)
-			while (j < x)
-				if (map[i][j++] == 0)
-					return (FAILURE);
-		else
-		{
-			while (map[i][j] == ' ')
-				j++;
-			if (map[i][j] != ' ' && map[i][j] == '0')
-				return (FAILURE);
-			j = x - 1;
-			while (map[i][j] == ' ')
-				j--;
-			if (map[i][j] != ' ' && map[i][j] == '0')
-				return (FAILURE);
-		}
-		i++;
+	map = map_allocate(info->x, info->y);
+	list_to_array_map(list, map, info->x, info->y);
+	info->map = map;
+	if (!map_check(info)) {
+		printf("map fail!!\n");
+		return (0);
 	}
-	return (SUCCESS);
+	printf("map success!!\n");
+	return (1);
 }
-*/

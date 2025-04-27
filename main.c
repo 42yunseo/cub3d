@@ -30,7 +30,7 @@ t_vars	*vars_init(char *filename)
 	if (vars->info == NULL)
 		exit_game(vars);
 	vars->win = mlx_new_window(vars->mlx, \
-		vars->info->x, vars->info->y, "cub3d");
+		1920, 1080, "cub3d");
 	return (vars);
 }
 
