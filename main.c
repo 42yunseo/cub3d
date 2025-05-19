@@ -29,12 +29,9 @@ t_vars	*vars_init(char *filename)
 	vars->info = info_init(filename, vars);
 	if (vars->info == NULL)
 		exit_game(vars);
+	
 	vars->player = player_init(vars);
-	printf("player init : \n");
-	printf("pos : {%f, %f}\n", vars->player->pos_x, vars->player->pos_y);
-	printf("dir : {%f, %f}\n", vars->player->dir_x, vars->player->dir_y);
-	vars->win = mlx_new_window(vars->mlx, \
-		1920, 1080, "cub3d");
+	vars->win = mlx_new_window(vars->mlx, 1920, 1080, "cub3d");
 	return (vars);
 }
 
@@ -52,7 +49,7 @@ int	main(int argc, char **argv)
 		return (1);
 	mlx_key_hook(vars->win, &key_press, vars->mlx);
 	mlx_hook(vars->win, BTN_EXIT, 1L << 0, mlx_loop_end, vars->mlx);
+	run(vars);
 	mlx_loop(vars->mlx);
-	//run();
 	exit_game(vars);
 }

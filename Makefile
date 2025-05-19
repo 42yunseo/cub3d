@@ -32,6 +32,7 @@ SRCS = 	main.c \
 		color.c \
 		map.c \
 		player.c \
+		run.c \
 		utils.c 
 
 

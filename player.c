@@ -58,7 +58,7 @@ t_player	*player_init(t_vars *vars)
 		exit_game(vars);
 	ft_memset(player, 0, sizeof(t_player));
 	func1(vars, player);
-	player->plane_x = 0;
-	player->plane_y = 1;
+	player->plane_x = 1;
+	player->plane_y = 0;
 	return (player);
 }

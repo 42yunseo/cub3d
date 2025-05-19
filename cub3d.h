@@ -39,11 +39,12 @@
 
 # define BTN_EXIT 17
 
+// s_rgb 없애고 int로 퉁치자.
 typedef struct s_rgb
 {
-	int	r;
-	int	g;
-	int	b;
+	char	r;
+	char	g;
+	char	b;
 }	t_rgb;
 
 typedef struct s_player
@@ -104,5 +105,8 @@ void	error_exit(char *msg, t_vars *vars);
 void	exit_game(t_vars *vars);
 void	token_free(char **token);
 int		get_token_length(char **token);
+
+void    run(t_vars *vars);
+
 
 #endif /* CUB3D_H */
