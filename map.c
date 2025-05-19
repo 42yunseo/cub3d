@@ -39,8 +39,8 @@ t_list	*fetch_map(int fd, t_info *info, t_vars *vars)
 			list = tmp;
 		free(line);
 	}
-	info->x = max_width;
-	info->y = ft_lstsize(list);
+	info->width = max_width;
+	info->height = ft_lstsize(list);
 	return (list);
 }
 
@@ -107,7 +107,7 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 }
 
 
-int	check_space(t_info *info, int x, int y)
+int	check_space(t_info *info, int width, int height)
 {
 	const int	dx[4] = {1, 0, -1, 0};
 	const int	dy[4] = {0, 1, 0, -1};
@@ -118,10 +118,10 @@ int	check_space(t_info *info, int x, int y)
 	i = 0;
 	while (i < 4)
 	{
-		xx = x + dx[i];
-		yy = y + dy[i];
+		xx = width + dx[i];
+		yy = height + dy[i];
 		
-		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->x)
+		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width)
 		{
 			i++;
 			continue;
@@ -134,7 +134,7 @@ int	check_space(t_info *info, int x, int y)
 	return (1);
 }
 
-int	check_zero(t_info *info, int x, int y)
+int	check_zero(t_info *info, int width, int height)
 {
 	const int	dx[4] = {1, 0, -1, 0};
 	const int	dy[4] = {0, 1, 0, -1};
@@ -145,10 +145,10 @@ int	check_zero(t_info *info, int x, int y)
 	i = 0;
 	while (i < 4)
 	{
-		xx = x + dx[i];
-		yy = y + dy[i];
+		xx = width + dx[i];
+		yy = height + dy[i];
 		
-		if (xx < 0 || xx >= info->y || yy < 0 || yy >= info->x) {
+		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width) {
 			return (0);
 
 		}
@@ -170,10 +170,10 @@ int	map_check(t_info *info)
 
 	cnt = 0;
 	i = 0;
-	while (i < info->y)
+	while (i < info->height)
 	{
 		j = 0;
-		while (j < info->x && info->map[i][j])
+		while (j < info->width && info->map[i][j])
 		{
 			if (info->map[i][j] == '1') {
 				j++;
@@ -206,8 +206,8 @@ int	read_map(int fd, t_info *info, t_vars *vars)
 	char	**map;
 
 	list = fetch_map(fd, info, vars);
-	map = map_allocate(info->x, info->y);
-	list_to_array_map(list, map, info->x, info->y);
+	map = map_allocate(info->width, info->height);
+	list_to_array_map(list, map, info->width, info->height);
 	info->map = map;
 	if (!map_check(info)) {
 		printf("map fail!!\n");

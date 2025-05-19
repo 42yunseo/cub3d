@@ -46,11 +46,21 @@ typedef struct s_rgb
 	int	b;
 }	t_rgb;
 
+typedef struct s_player
+{
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
+
 typedef struct s_info
 {
 	char	**map;
-	int		x;
-	int		y;
+	int		width;
+	int		height;
 	char	*north_path;
 	char	*south_path;
 	char	*west_path;
@@ -61,9 +71,10 @@ typedef struct s_info
 
 typedef struct s_vars
 {
-	void	*mlx;
-	void	*win;
-	t_info	*info;
+	void		*mlx;
+	void		*win;
+	t_info		*info;
+	t_player	*player;
 }	t_vars;
 
 // info.c
@@ -84,6 +95,9 @@ int		set_color(char *color, t_rgb *target);
 
 // map.c
 int		read_map(int fd, t_info *info, t_vars *vars);
+
+// player.c
+t_player	*player_init(t_vars *vars);
 
 // utils.c
 void	error_exit(char *msg, t_vars *vars);

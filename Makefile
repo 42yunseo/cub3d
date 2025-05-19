@@ -13,7 +13,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 lFLAGS = -lm -lmlx -lXext -lX11 -lft
 LFLAGS = -Lminilibx-linux -Llibft
 IFLAGS = -I$(LIBFT_DIR) -I$(MLX_DIR) -I$(GNL_DIR)
@@ -31,6 +31,7 @@ SRCS = 	main.c \
 		texture.c \
 		color.c \
 		map.c \
+		player.c \
 		utils.c 
 
 
