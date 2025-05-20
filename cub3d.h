@@ -114,6 +114,7 @@ int		set_color(char *color, int *target);
 t_list	*fetch_map(int fd, t_info *info, t_vars *vars);
 void	list_to_array_map(t_list *list, char **map, int x, int y);
 char	**map_allocate(int x, int y);
+void	free_map(char **map, int max_idx);
 
 // map.c
 int		read_map(int fd, t_info *info, t_vars *vars);
@@ -134,6 +135,9 @@ void	set_step_sidedist(t_player *p, t_raycast *raycast);
 void	dda(t_vars *vars, t_raycast *raycast);
 void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
 void	draw_line(t_vars *vars, int x, int line_height);
+
+// frees.c
+void    free_all(t_vars *vars);
 
 
 #endif /* CUB3D_H */

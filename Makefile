@@ -34,7 +34,8 @@ SRCS = 	main.c \
 		map.c \
 		player.c \
 		render.c \
-		utils.c 
+		utils.c \
+		frees.c
 
 OBJS = $(SRCS:.c=.o)
 
