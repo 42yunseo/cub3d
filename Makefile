@@ -30,6 +30,7 @@ SRCS = 	main.c \
 		element.c \
 		texture.c \
 		color.c \
+		map_allocate.c \
 		map.c \
 		player.c \
 		render.c \

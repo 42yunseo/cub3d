@@ -110,6 +110,11 @@ int		is_color(char *line);
 void	read_color(char *ine, t_info *map, t_vars *vars);
 int		set_color(char *color, int *target);
 
+// map_allocate.c
+t_list	*fetch_map(int fd, t_info *info, t_vars *vars);
+void	list_to_array_map(t_list *list, char **map, int x, int y);
+char	**map_allocate(int x, int y);
+
 // map.c
 int		read_map(int fd, t_info *info, t_vars *vars);
 
