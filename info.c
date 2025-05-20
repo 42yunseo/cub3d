@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-
 void	print_elements(t_info *info)
 {
 	printf("north : %s\n", info->north_path);

@@ -27,7 +27,7 @@ t_list	*fetch_map(int fd, t_info *info, t_vars *vars)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (*line == '\n') // 앞에서 엔터 하나 제거안하면 여기서 걸림 이전 로직에서 엔터 제거 필요
+		if (*line == '\n')
 			error_exit("fetch_map error", vars);
 		tmp = ft_lstnew(ft_substr(line, 0, ft_strchr(line, '\n') - line));
 		line_width = ft_strlen(tmp->content);
@@ -122,7 +122,7 @@ int	check_space(t_info *info, int width, int height)
 		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (!(info->map[xx][yy] == ' ' || info->map[xx][yy] == '1'))
 			return (0);
@@ -146,15 +146,13 @@ int	check_zero(t_info *info, int width, int height)
 		yy = height + dy[i];
 		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width)
 			return (0);
-		if (info->map[xx][yy] == ' ')
+		if (info->map[xx][yy] == ' ' || info->map[xx][yy] == '\0')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-// 0 상하좌우 -> 공백일 수 없음.
-// 공백 상하좌우 -> 공백 or 1
 int	map_check(t_info *info)
 {
 	int	cnt;
@@ -168,12 +166,7 @@ int	map_check(t_info *info)
 		j = 0;
 		while (j < info->width && info->map[i][j])
 		{
-			if (info->map[i][j] == '1')
-			{
-				j++;
-				continue ;
-			}
-			else if (info->map[i][j] == ' ')
+			if (info->map[i][j] == ' ')
 			{
 				if (!check_space(info, i, j))
 					return (0);
