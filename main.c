@@ -16,6 +16,18 @@ int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_ESC)
 		exit_game(vars);
+// 	if (keycode == KEY_W)
+// 		move(vars, FORWARD);
+// 	if (keycode == KEY_A)
+// 		move(vars, LEFT);
+// 	if (keycode == KEY_S)
+// 		move(vars, BACKWARD);
+// 	if (keycode == KEY_D)
+// 		move(vars, RIGHT);
+// 	if (keycode == KEY_LEFT)
+// 		rotate(vars, LEFT);
+// 	if (keycode == KEY_RIGHT)
+// 		rotate(vars, RIGHT);
 	return (0);
 }
 

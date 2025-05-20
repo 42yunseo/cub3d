@@ -37,17 +37,29 @@
 # define KEY_DOWN	65364
 # define KEY_RIGHT	65363
 
+# define FORWARD	0
+# define BACKWARD	1
+# define LEFT	2
+# define RIGHT	3
+
+
 # define BTN_EXIT 17
 
-typedef struct s_player
+typedef struct s_raycast
 {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-}	t_player;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	int		step_x;
+	int		step_y;
+	int		side;
+	int		line_height;
+}	t_raycast;
 
 typedef struct s_info
 {
@@ -61,6 +73,16 @@ typedef struct s_info
 	int		floor;
 	int		ceiling;
 }	t_info;
+
+typedef struct s_player
+{
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
 
 typedef struct s_vars
 {
@@ -102,6 +124,11 @@ int		get_token_length(char **token);
 
 // render.c
 void    render(t_vars *vars);
+void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x);
+void	set_step_sidedist(t_player *p, t_raycast *raycast);
+void	dda(t_vars *vars, t_raycast *raycast);
+void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
+void	draw_line(t_vars *vars, int x, int line_height);
 
 
 #endif /* CUB3D_H */

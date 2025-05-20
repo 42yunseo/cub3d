@@ -12,120 +12,107 @@
 
 #include "cub3d.h"
 
-void	draw_line(t_vars *vars, int x, int line_height);
-
 void	render(t_vars *vars)
 {
 	t_player	*p;
+	t_raycast	raycast;
+	int			x;
 
-	int	x = 0;
+	x = 0;
 	p = vars->player;
-
 	while (x < vars->w)
 	{
-		double camera_x = 2 * x / (double)vars->w - 1; //x-coordinate in camera space
-		double raydir_x = p->dir_x + p->plane_x * camera_x;
-		double raydir_y = p->dir_y + p->plane_y * camera_x;
-		//which box of the map we're in
-		int map_x = p->pos_x;
-		int map_y = p->pos_y;
-
-		//length of ray from current position to next x or y-side
-		double sidedist_x;
-		double sidedist_y;
-
-		//length of ray from one x or y-side to next x or y-side
-		double deltadist_x = fabs(1 / raydir_x);
-		double deltadist_y = fabs(1 / raydir_y);
-		double perp_walldist;
-
-		//what direction to step in x or y-direction (either +1 or -1)
-		int step_x;
-		int step_y;
-
-		int hit = 0; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
-
-		//calculate step and initial sideDist
-		if (raydir_x < 0)
-		{
-			step_x = -1;
-			sidedist_x = (p->pos_x - map_x) * deltadist_x;
-		}
-		else
-		{
-			step_x = 1;
-			sidedist_x = (map_x + 1.0 - p->pos_x) * deltadist_x;
-		}
-		if (raydir_y < 0)
-		{
-			step_y = -1;
-			sidedist_y = (p->pos_y - map_y) * deltadist_y;
-		}
-		else
-		{
-			step_y = 1;
-			sidedist_y = (map_y + 1.0 - p->pos_y) * deltadist_y;
-		}
-		//perform DDA
-		while (hit == 0)
-		{
-			//jump to next map square, OR in x-direction, OR in y-direction
-			if (sidedist_x < sidedist_y)
-			{
-				sidedist_x += deltadist_x;
-				map_x += step_x;
-				side = 0;
-			}
-			else
-			{
-				sidedist_y += deltadist_y;
-				map_y += step_y;
-				side = 1;
-			}
-			//Check if ray has hit a wall
-			if (vars->info->map[map_y][map_x] != '0')
-				hit = 1;
-		}
-		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-		if (side == 0)
-			perp_walldist = (map_x - p->pos_x + (1 - step_x) / 2) / raydir_x;
-		else
-			perp_walldist = (map_y - p->pos_y + (1 - step_y) / 2) / raydir_y;
-		//Calculate height of line to draw on screen
-		int line_height = (int)(vars->h / perp_walldist);
-		draw_line(vars, x, line_height);
+		init_raycast(vars, p, &raycast, x);
+		set_step_sidedist(p, &raycast);
+		dda(vars, &raycast);
+		calc_line_height(vars, p, &raycast);
+		draw_line(vars, x, raycast.line_height);
 		x++;
 	}
 }
 
-// int	dda(t_vars *vars, )
-// {
-// 	int	hit;
-// 	int	side;
+void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x)
+{
+	double	camera_x;
 
-// 	hit = 0;
-// 	while (hit == 0)
-// 	{
-// 		//jump to next map square, OR in x-direction, OR in y-direction
-// 		if (sidedist_x < sidedist_y)
-// 		{
-// 			sidedist_x += deltadist_x;
-// 			map_x += step_x;
-// 			side = 0;
-// 		}
-// 		else
-// 		{
-// 			sidedist_y += deltadist_y;
-// 			map_y += step_y;
-// 			side = 1;
-// 		}
-// 		//Check if ray has hit a wall
-// 		if (vars->info->map[map_y][map_x] != '0')
-// 			hit = 1;
-// 	}
-// 	return (side);
-// }
+	ft_memset(raycast, sizeof(t_raycast), 0);
+	camera_x = 2 * x / (double)vars->w - 1;
+	raycast->ray_dir_x = p->dir_x + p->plane_x * camera_x;
+	raycast->ray_dir_y = p->dir_y + p->plane_y * camera_x;
+	raycast->map_x = p->pos_x;
+	raycast->map_y = p->pos_y;
+	raycast->delta_dist_x = fabs(1 / raycast->ray_dir_x);
+	raycast->delta_dist_y = fabs(1 / raycast->ray_dir_y);
+}
+
+void	set_step_sidedist(t_player *p, t_raycast *raycast)
+{
+	if (raycast->ray_dir_x < 0)
+	{
+		raycast->step_x = -1;
+		raycast->side_dist_x = \
+		(p->pos_x - raycast->map_x) * raycast->delta_dist_x;
+	}
+	else
+	{
+		raycast->step_x = 1;
+		raycast->side_dist_x = \
+		(raycast->map_x + 1.0 - p->pos_x) * raycast->delta_dist_x;
+	}
+	if (raycast->ray_dir_y < 0)
+	{
+		raycast->step_y = -1;
+		raycast->side_dist_y = \
+		(p->pos_y - raycast->map_y) * raycast->delta_dist_y;
+	}
+	else
+	{
+		raycast->step_y = 1;
+		raycast->side_dist_y = \
+		(raycast->map_y + 1.0 - p->pos_y) * raycast->delta_dist_y;
+	}
+}
+
+void	dda(t_vars *vars, t_raycast *raycast)
+{
+	int	hit;
+	int	side;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (raycast->side_dist_x < raycast->side_dist_y)
+		{
+			raycast->side_dist_x += raycast->delta_dist_x;
+			raycast->map_x += raycast->step_x;
+			side = 0;
+		}
+		else
+		{
+			raycast->side_dist_y += raycast->delta_dist_y;
+			raycast->map_y += raycast->step_y;
+			side = 1;
+		}
+		if (vars->info->map[raycast->map_y][raycast->map_x] != '0')
+			hit = 1;
+	}
+	raycast->side = side;
+}
+
+void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast)
+{
+	double	perp_walldist;
+
+	if (raycast->side == 0)
+		perp_walldist = \
+		(raycast->map_x - p->pos_x + (1 - raycast->step_x) / 2) \
+		/ raycast->ray_dir_x;
+	else
+		perp_walldist = \
+		(raycast->map_y - p->pos_y + (1 - raycast->step_y) / 2) \
+		/ raycast->ray_dir_y;
+	raycast->line_height = (int)(vars->h / perp_walldist);
+}
 
 void	draw_line(t_vars *vars, int x, int line_height)
 {
