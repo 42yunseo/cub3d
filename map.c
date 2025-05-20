@@ -62,7 +62,6 @@ char	**map_allocate(int x, int y)
 	int		i;
 	char	**ret;
 
-
 	ret = (char **)malloc(sizeof(char *) * y);
 	if (ret == NULL)
 	{
@@ -96,7 +95,8 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 	{
 		j = 0;
 		list_line = tmp_list->content;
-		while (j < x && list_line[j]) {
+		while (j < x && list_line[j])
+		{
 			map[i][j] = list_line[j];
 			j++;
 		}
@@ -106,13 +106,12 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 	}
 }
 
-
 int	check_space(t_info *info, int width, int height)
 {
 	const int	dx[4] = {1, 0, -1, 0};
 	const int	dy[4] = {0, 1, 0, -1};
 	int			i;
-	int 		xx;
+	int			xx;
 	int			yy;
 
 	i = 0;
@@ -120,15 +119,13 @@ int	check_space(t_info *info, int width, int height)
 	{
 		xx = width + dx[i];
 		yy = height + dy[i];
-		
 		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width)
 		{
 			i++;
 			continue;
 		}
-		if (!(info->map[xx][yy] == ' ' || info->map[xx][yy] == '1')) {
+		if (!(info->map[xx][yy] == ' ' || info->map[xx][yy] == '1'))
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -139,7 +136,7 @@ int	check_zero(t_info *info, int width, int height)
 	const int	dx[4] = {1, 0, -1, 0};
 	const int	dy[4] = {0, 1, 0, -1};
 	int			i;
-	int 		xx;
+	int			xx;
 	int			yy;
 
 	i = 0;
@@ -147,11 +144,8 @@ int	check_zero(t_info *info, int width, int height)
 	{
 		xx = width + dx[i];
 		yy = height + dy[i];
-		
-		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width) {
+		if (xx < 0 || xx >= info->height || yy < 0 || yy >= info->width)
 			return (0);
-
-		}
 		if (info->map[xx][yy] == ' ')
 			return (0);
 		i++;
@@ -159,11 +153,10 @@ int	check_zero(t_info *info, int width, int height)
 	return (1);
 }
 
-
+// 0 상하좌우 -> 공백일 수 없음.
+// 공백 상하좌우 -> 공백 or 1
 int	map_check(t_info *info)
 {
-	// 0 상하좌우 -> 공백일 수 없음.
-	// 공백 상하좌우 -> 공백 or 1
 	int	cnt;
 	int	i;
 	int	j;
@@ -175,10 +168,10 @@ int	map_check(t_info *info)
 		j = 0;
 		while (j < info->width && info->map[i][j])
 		{
-			if (info->map[i][j] == '1') {
+			if (info->map[i][j] == '1')
+			{
 				j++;
-				continue;
-
+				continue ;
 			}
 			else if (info->map[i][j] == ' ')
 			{
@@ -197,7 +190,6 @@ int	map_check(t_info *info)
 		i++;
 	}
 	return (1);
-	
 }
 
 int	read_map(int fd, t_info *info, t_vars *vars)
@@ -209,7 +201,8 @@ int	read_map(int fd, t_info *info, t_vars *vars)
 	map = map_allocate(info->width, info->height);
 	list_to_array_map(list, map, info->width, info->height);
 	info->map = map;
-	if (!map_check(info)) {
+	if (!map_check(info))
+	{
 		printf("map fail!!\n");
 		return (0);
 	}

@@ -12,10 +12,6 @@
 
 #include "cub3d.h"
 
-void	print_rgb(t_rgb rgb)
-{
-	printf("[%d] [%d] [%d]\n", rgb.r, rgb.g, rgb.b);
-}
 
 void	print_elements(t_info *info)
 {
@@ -24,9 +20,9 @@ void	print_elements(t_info *info)
 	printf("west : %s\n", info->west_path);
 	printf("east : %s\n", info->east_path);
 	printf("floor rgb : ");
-	print_rgb(info->floor);
+	printf("%x\n", info->floor);
 	printf("ceiling rgb : ");
-	print_rgb(info->ceiling);
+	printf("%x\n", info->ceiling);
 }
 
 int	read_file(char *filename, t_vars *vars)

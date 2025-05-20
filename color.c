@@ -24,7 +24,7 @@ int	is_color(char *line)
 void	read_color(char *line, t_info *map, t_vars *vars)
 {
 	char	**token;
-	t_rgb	*target;
+	int		*target;
 
 	token = ft_split(line, ' ');
 	if (token == NULL || get_token_length(token) != 2)
@@ -39,14 +39,15 @@ void	read_color(char *line, t_info *map, t_vars *vars)
 	if (set_color(token[1], target) == FAILURE)
 	{
 		token_free(token);
-		error_exit("", vars);
+		error_exit("Parsing Error in Color", vars);
 	}
 	token_free(token);
 }
 
-int	set_color(char *color, t_rgb *target)
+int	set_color(char *color, int *target)
 {
 	char	**token;
+	int		rgb[3];
 
 	token = ft_split(color, ',');
 	if (token == NULL || get_token_length(token) != 3)
@@ -54,8 +55,9 @@ int	set_color(char *color, t_rgb *target)
 		token_free(token);
 		return (FAILURE);
 	}
-	target->r = ft_atoi(token[0]);
-	target->g = ft_atoi(token[1]);
-	target->b = ft_atoi(token[2]);
+	rgb[0] = ft_atoi(token[0]);
+	rgb[1] = ft_atoi(token[1]);
+	rgb[2] = ft_atoi(token[2]);
+	*target = (0x00 << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[0];
 	return (SUCCESS);
 }

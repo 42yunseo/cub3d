@@ -29,9 +29,10 @@ t_vars	*vars_init(char *filename)
 	vars->info = info_init(filename, vars);
 	if (vars->info == NULL)
 		exit_game(vars);
-	
+	vars->w = 1920;
+	vars->h = 1080;
 	vars->player = player_init(vars);
-	vars->win = mlx_new_window(vars->mlx, 1920, 1080, "cub3d");
+	vars->win = mlx_new_window(vars->mlx, vars->w, vars->h, "cub3d");
 	return (vars);
 }
 
@@ -49,7 +50,7 @@ int	main(int argc, char **argv)
 		return (1);
 	mlx_key_hook(vars->win, &key_press, vars->mlx);
 	mlx_hook(vars->win, BTN_EXIT, 1L << 0, mlx_loop_end, vars->mlx);
-	run(vars);
+	render(vars);
 	mlx_loop(vars->mlx);
 	exit_game(vars);
 }

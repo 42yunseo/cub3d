@@ -39,14 +39,6 @@
 
 # define BTN_EXIT 17
 
-// s_rgb 없애고 int로 퉁치자.
-typedef struct s_rgb
-{
-	char	r;
-	char	g;
-	char	b;
-}	t_rgb;
-
 typedef struct s_player
 {
 	double	pos_x;
@@ -66,14 +58,16 @@ typedef struct s_info
 	char	*south_path;
 	char	*west_path;
 	char	*east_path;
-	t_rgb	floor;
-	t_rgb	ceiling;
+	int		floor;
+	int		ceiling;
 }	t_info;
 
 typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
+	int			w;
+	int			h;
 	t_info		*info;
 	t_player	*player;
 }	t_vars;
@@ -92,7 +86,7 @@ void	read_texture(char *line, t_info *map, t_vars *vars);
 // color.c
 int		is_color(char *line);
 void	read_color(char *ine, t_info *map, t_vars *vars);
-int		set_color(char *color, t_rgb *target);
+int		set_color(char *color, int *target);
 
 // map.c
 int		read_map(int fd, t_info *info, t_vars *vars);
@@ -106,7 +100,8 @@ void	exit_game(t_vars *vars);
 void	token_free(char **token);
 int		get_token_length(char **token);
 
-void    run(t_vars *vars);
+// render.c
+void    render(t_vars *vars);
 
 
 #endif /* CUB3D_H */
