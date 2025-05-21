@@ -54,10 +54,10 @@ void	move2(t_vars *vars, int direction)
 	}
 	if (direction == RIGHT)
 	{
-		if (map[(int)(p->pos_y - p->dir_x * MOVE_SPEED)][(int)p->pos_x] != '1')
-			p->pos_y -= p->dir_x * MOVE_SPEED;
 		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_y * MOVE_SPEED)] != '1')
 			p->pos_x += p->dir_y * MOVE_SPEED;
+		if (map[(int)(p->pos_y - p->dir_x * MOVE_SPEED)][(int)p->pos_x] != '1')
+			p->pos_y -= p->dir_x * MOVE_SPEED;
 	}
 	render(vars);
 }
