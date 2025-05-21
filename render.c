@@ -12,23 +12,56 @@
 
 #include "cub3d.h"
 
+void	img_init(int *data, int w, int h, t_info *info)
+{
+	int	y;
+	int	x;
+	int	ceiling;
+	int	floor;
+
+	y = 0;
+	ceiling = info->ceiling;
+	floor = info->floor;
+	while (y < h / 2)
+	{
+		x = 0;
+		while (x < w)
+			data[w * y + x++] = ceiling;
+		y++;
+	}
+	while (y < h)
+	{
+		x = 0;
+		while (x < w - 1)
+			data[w * y + x++] = floor;
+		y++;
+	}
+}
+
 void	render(t_vars *vars)
 {
 	t_player	*p;
 	t_raycast	raycast;
+	t_img		*img;
 	int			x;
 
 	x = 0;
 	p = vars->player;
+	img = &vars->img;
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->line_size, &img->endian);
+
+	printf("img->data : %p\n", img->data);
+	img_init(img->data, vars->w, vars->h, vars->info);
 	while (x < vars->w)
 	{
 		init_raycast(vars, p, &raycast, x);
 		set_step_sidedist(p, &raycast);
 		dda(vars, &raycast);
 		calc_line_height(vars, p, &raycast);
-		draw_line(vars, x, raycast.line_height);
+		draw_line(vars, img, x, raycast.line_height);
 		x++;
 	}
+	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
 }
 
 void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x)
@@ -114,23 +147,20 @@ void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast)
 	raycast->line_height = (int)(vars->h / perp_walldist);
 }
 
-void	draw_line(t_vars *vars, int x, int line_height)
+void	draw_line(t_vars *vars, t_img *img, int x, int line_height)
 {
 	int	y;
 	int	draw_start;
 	int	draw_end;
 
-	y = 0;
+	// y = 0;
 	draw_start = -line_height / 2 + vars->h / 2;
 	if (draw_start < 0)
 		draw_start = 0;
 	draw_end = line_height / 2 + vars->h / 2;
 	if (draw_end >= vars->h)
 		draw_end = vars->h - 1;
-	while (y < draw_start)
-		mlx_pixel_put(vars->mlx, vars->win, x, y++, vars->info->ceiling);
+	y = draw_start;
 	while (y < draw_end)
-		mlx_pixel_put(vars->mlx, vars->win, x, y++, 0x0000ff00);
-	while (y < 1080)
-		mlx_pixel_put(vars->mlx, vars->win, x, y++, vars->info->floor);
+		img->data[vars->w * y++ + x] = 0x0000ff00;
 }

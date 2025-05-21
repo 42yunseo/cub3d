@@ -24,7 +24,7 @@ void	set_direction(t_player *player, char dir)
 		player->dir_x = -1;
 }
 
-void	func1(t_vars *vars, t_player *player)
+void	set_position(t_vars *vars, t_player *player)
 {
 	char	**map;
 	int		w;
@@ -57,7 +57,7 @@ t_player	*player_init(t_vars *vars)
 	if (player == NULL)
 		exit_game(vars);
 	ft_memset(player, 0, sizeof(t_player));
-	func1(vars, player);
+	set_position(vars, player);
 	player->plane_x = 1;
 	player->plane_y = 0;
 	return (player);

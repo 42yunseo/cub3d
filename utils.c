@@ -21,7 +21,8 @@ void	error_exit(char *msg, t_vars *vars)
 
 void	exit_game(t_vars *vars)
 {
-	free_vars(vars);
+	if (vars != NULL)
+		free_vars(vars);
 	exit(EXIT_SUCCESS);
 }
 

@@ -24,9 +24,18 @@ void	free_info(t_info *info)
 
 void	free_vars(t_vars *vars)
 {
-	free(vars->player);
+	if (vars->player != NULL)
+		free(vars->player);
+	if (vars->img.img != NULL)
+		mlx_destroy_image(vars->mlx, vars->img.img);
 	if (vars->info != NULL)
 		free_info(vars->info);
-	mlx_destroy_window(vars->mlx, vars->win);
-	free(vars->mlx);
+	if (vars->mlx != NULL && vars->win != NULL)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx != NULL)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+	}
+	free(vars);
 }

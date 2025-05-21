@@ -39,10 +39,11 @@
 
 # define FORWARD	0
 # define BACKWARD	1
-# define LEFT	2
-# define RIGHT	3
+# define LEFT		2
+# define RIGHT		3
 
-
+# define MOVE_SPEED	0.2
+# define ROT_SPEED 0.2
 # define BTN_EXIT 17
 
 typedef struct s_raycast
@@ -84,10 +85,20 @@ typedef struct s_player
 	double	plane_y;
 }	t_player;
 
+typedef struct s_img
+{
+	void	*img;
+	int		*data;
+	int		bpp;
+	int		line_size;
+	int		endian;
+}	t_img;
+
 typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
+	t_img		img;
 	int			w;
 	int			h;
 	t_info		*info;
@@ -134,7 +145,7 @@ void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x);
 void	set_step_sidedist(t_player *p, t_raycast *raycast);
 void	dda(t_vars *vars, t_raycast *raycast);
 void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
-void	draw_line(t_vars *vars, int x, int line_height);
+void	draw_line(t_vars *vars, t_img *img, int x, int line_height);
 
 // frees.c
 void    free_vars(t_vars *vars);
