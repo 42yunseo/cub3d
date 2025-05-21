@@ -68,18 +68,6 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 	}
 }
 
-void	free_map(char **map, int max_idx)
-{
-	int	i;
-
-	i = 0;
-	while (i < max_idx)
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
-}
 
 char	**map_allocate(int x, int y)
 {
@@ -98,7 +86,7 @@ char	**map_allocate(int x, int y)
 		ret[i] = (char *)malloc(x + 1);
 		if (ret[i] == NULL)
 		{
-			free_map(ret, i);
+			token_free(ret);
 			return (0);
 		}
 		i++;
