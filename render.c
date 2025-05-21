@@ -50,7 +50,6 @@ void	render(t_vars *vars)
 	img = &vars->img;
 	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->line_size, &img->endian);
 
-	printf("img->data : %p\n", img->data);
 	img_init(img->data, vars->w, vars->h, vars->info);
 	while (x < vars->w)
 	{
@@ -126,7 +125,7 @@ void	dda(t_vars *vars, t_raycast *raycast)
 			raycast->map_y += raycast->step_y;
 			side = 1;
 		}
-		if (vars->info->map[raycast->map_y][raycast->map_x] != '0')
+		if (vars->info->map[raycast->map_y][raycast->map_x] == '1')
 			hit = 1;
 	}
 	raycast->side = side;

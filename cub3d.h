@@ -42,7 +42,7 @@
 # define LEFT		2
 # define RIGHT		3
 
-# define MOVE_SPEED	0.2
+# define MV_SPEED	0.5
 # define ROT_SPEED 0.2
 # define BTN_EXIT 17
 
