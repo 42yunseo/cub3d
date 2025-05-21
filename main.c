@@ -38,6 +38,30 @@ void	move(t_vars *vars, int direction)
 	render(vars);
 }
 
+void	move2(t_vars *vars, int direction)
+{
+	char		**map;
+	t_player	*p;
+
+	map = vars->info->map;
+	p = vars->player;
+	if (direction == LEFT)
+	{
+		if (map[(int)p->pos_y][(int)(p->pos_x - p->dir_y * MOVE_SPEED)] != '1')
+			p->pos_x -= p->dir_y * MOVE_SPEED;
+		if (map[(int)(p->pos_y + p->dir_x * MOVE_SPEED)][(int)p->pos_x] != '1')
+			p->pos_y += p->dir_x * MOVE_SPEED;
+	}
+	if (direction == RIGHT)
+	{
+		if (map[(int)(p->pos_y - p->dir_x * MOVE_SPEED)][(int)p->pos_x] != '1')
+			p->pos_y -= p->dir_x * MOVE_SPEED;
+		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_y * MOVE_SPEED)] != '1')
+			p->pos_x += p->dir_y * MOVE_SPEED;
+	}
+	render(vars);
+}
+
 void	rotate(t_vars *vars, int direction)
 {
 	double		old_dir_x;
@@ -74,11 +98,11 @@ int	key_press(int keycode, t_vars *vars)
 	if (keycode == KEY_W)
 		move(vars, FORWARD);
 	if (keycode == KEY_A)
-		move(vars, LEFT);
+		move2(vars, LEFT);
 	if (keycode == KEY_S)
 		move(vars, BACKWARD);
 	if (keycode == KEY_D)
-		move(vars, RIGHT);
+		move2(vars, RIGHT);
 	if (keycode == KEY_LEFT)
 		rotate(vars, LEFT);
 	if (keycode == KEY_RIGHT)
