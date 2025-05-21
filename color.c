@@ -59,5 +59,6 @@ int	set_color(char *color, int *target)
 	rgb[1] = ft_atoi(token[1]);
 	rgb[2] = ft_atoi(token[2]);
 	*target = (0x00 << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[0];
+	token_free(token);
 	return (SUCCESS);
 }

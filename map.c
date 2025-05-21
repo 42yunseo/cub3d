@@ -106,6 +106,7 @@ int	read_map(int fd, t_info *info, t_vars *vars)
 	list = fetch_map(fd, info, vars);
 	map = map_allocate(info->width, info->height);
 	list_to_array_map(list, map, info->width, info->height);
+	ft_lstclear(&list, free);
 	info->map = map;
 	if (!map_check(info))
 	{

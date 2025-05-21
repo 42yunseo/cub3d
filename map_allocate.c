@@ -86,7 +86,7 @@ char	**map_allocate(int x, int y)
 	int		i;
 	char	**ret;
 
-	ret = (char **)malloc(sizeof(char *) * y);
+	ret = (char **)malloc(sizeof(char *) * (y + 1));
 	if (ret == NULL)
 	{
 		free(ret);
@@ -103,5 +103,6 @@ char	**map_allocate(int x, int y)
 		}
 		i++;
 	}
+	ret[i] = NULL;
 	return (ret);
 }

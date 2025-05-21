@@ -60,7 +60,7 @@ int	main(int argc, char **argv)
 	vars = vars_init(argv[1]);
 	if (vars == NULL)
 		return (1);
-	mlx_key_hook(vars->win, &key_press, vars->mlx);
+	mlx_key_hook(vars->win, &key_press, vars);
 	mlx_hook(vars->win, BTN_EXIT, 1L << 0, mlx_loop_end, vars->mlx);
 	render(vars);
 	mlx_loop(vars->mlx);
