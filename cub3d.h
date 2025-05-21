@@ -137,7 +137,7 @@ void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
 void	draw_line(t_vars *vars, int x, int line_height);
 
 // frees.c
-void    free_all(t_vars *vars);
+void    free_vars(t_vars *vars);
 
 
 #endif /* CUB3D_H */

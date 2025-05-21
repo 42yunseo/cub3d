@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void    free_all(t_vars *vars)
+void    free_vars(t_vars *vars)
 {
     free(vars->player);
     free(vars->win);
