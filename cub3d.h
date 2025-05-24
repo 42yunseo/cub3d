@@ -42,8 +42,14 @@
 # define LEFT		2
 # define RIGHT		3
 
+# define NORTH		0
+# define SOUTH		1
+# define WEST		2
+# define EAST		3
+
 # define MV_SPEED	0.5
-# define ROT_SPEED 0.2
+# define ROT_SPEED	0.131
+# define TEXTURE_SIZE	64
 # define BTN_EXIT 17
 
 typedef struct s_raycast
@@ -60,6 +66,14 @@ typedef struct s_raycast
 	int		step_y;
 	int		side;
 	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	double	perp_wall_dist;
+	int		dir;
+	int		texture_x;
+	int		texture_y;
+	int		texture_pos;
+	int		step;
 }	t_raycast;
 
 typedef struct s_info
@@ -92,13 +106,14 @@ typedef struct s_img
 	int		bpp;
 	int		line_size;
 	int		endian;
-}	t_img;
+}	t_image;
 
 typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
-	t_img		img;
+	t_image		img;
+	t_image		textures[4];
 	int			w;
 	int			h;
 	t_info		*info;
@@ -115,6 +130,7 @@ void	parsing_element(char *line, t_info *map, t_vars *vars);
 // texture.c
 int		is_texture(char *line);
 void	read_texture(char *line, t_info *map, t_vars *vars);
+void	load_texture(t_vars *vars);
 
 // color.c
 int		is_color(char *line);
@@ -125,7 +141,7 @@ int		set_color(char *color, int *target);
 t_list	*fetch_map(int fd, t_info *info, t_vars *vars);
 void	list_to_array_map(t_list *list, char **map, int x, int y);
 char	**map_allocate(int x, int y);
-void	free_map(char **map, int max_idx);
+// void	free_map(char **map, int max_idx);
 
 // map.c
 int		read_map(int fd, t_info *info, t_vars *vars);
@@ -144,8 +160,12 @@ void    render(t_vars *vars);
 void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x);
 void	set_step_sidedist(t_player *p, t_raycast *raycast);
 void	dda(t_vars *vars, t_raycast *raycast);
+
+// draw.c
+// void	draw_line(t_vars *vars, t_img *img, int x, int line_height);
+void	draw(t_vars *vars, t_raycast *raycast, int x);
 void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
-void	draw_line(t_vars *vars, t_img *img, int x, int line_height);
+int		calc_wall_direction(t_raycast *raycast);
 
 // frees.c
 void    free_vars(t_vars *vars);

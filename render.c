@@ -42,14 +42,14 @@ void	render(t_vars *vars)
 {
 	t_player	*p;
 	t_raycast	raycast;
-	t_img		*img;
+	t_image		*img;
 	int			x;
 
 	x = 0;
 	p = vars->player;
 	img = &vars->img;
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->line_size, &img->endian);
-
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
+		&img->line_size, &img->endian);
 	img_init(img->data, vars->w, vars->h, vars->info);
 	while (x < vars->w)
 	{
@@ -57,7 +57,7 @@ void	render(t_vars *vars)
 		set_step_sidedist(p, &raycast);
 		dda(vars, &raycast);
 		calc_line_height(vars, p, &raycast);
-		draw_line(vars, img, x, raycast.line_height);
+		draw(vars, &raycast, x);
 		x++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
@@ -129,37 +129,4 @@ void	dda(t_vars *vars, t_raycast *raycast)
 			hit = 1;
 	}
 	raycast->side = side;
-}
-
-void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast)
-{
-	double	perp_walldist;
-
-	if (raycast->side == 0)
-		perp_walldist = \
-		(raycast->map_x - p->pos_x + (1 - raycast->step_x) / 2) \
-		/ raycast->ray_dir_x;
-	else
-		perp_walldist = \
-		(raycast->map_y - p->pos_y + (1 - raycast->step_y) / 2) \
-		/ raycast->ray_dir_y;
-	raycast->line_height = (int)(vars->h / perp_walldist);
-}
-
-void	draw_line(t_vars *vars, t_img *img, int x, int line_height)
-{
-	int	y;
-	int	draw_start;
-	int	draw_end;
-
-	// y = 0;
-	draw_start = -line_height / 2 + vars->h / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + vars->h / 2;
-	if (draw_end >= vars->h)
-		draw_end = vars->h - 1;
-	y = draw_start;
-	while (y < draw_end)
-		img->data[vars->w * y++ + x] = 0x0000ff00;
 }

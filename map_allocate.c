@@ -68,7 +68,6 @@ void	list_to_array_map(t_list *list, char **map, int x, int y)
 	}
 }
 
-
 char	**map_allocate(int x, int y)
 {
 	int		i;

@@ -47,7 +47,6 @@ t_info	*info_init(char *filename, t_vars *vars)
 	read_element(fd, info, vars);
 	print_elements(info); // for debugging
 	read_map(fd, info, vars);
-	// print_map(info); // for debbuing
 	close(fd);
 	return (info);
 }

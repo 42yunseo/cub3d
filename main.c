@@ -21,7 +21,7 @@ void	move(t_vars *vars, int direction)
 	p = vars->player;
 	if (direction == FORWARD)
 	{
-		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_x * MV_SPEED )] != '1' \
+		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_x * MV_SPEED)] != '1' \
 		&& map[(int)(p->pos_y + p->dir_y * MV_SPEED)][(int)p->pos_x] != '1')
 		{
 			p->pos_x += p->dir_x * MV_SPEED;
@@ -59,7 +59,7 @@ void	move2(t_vars *vars, int direction)
 	if (direction == RIGHT)
 	{
 		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_y * MV_SPEED)] != '1' \
-		 && map[(int)(p->pos_y - p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
+		&& map[(int)(p->pos_y - p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
 		{
 			p->pos_x += p->dir_y * MV_SPEED;
 			p->pos_y -= p->dir_x * MV_SPEED;
@@ -129,6 +129,7 @@ t_vars	*vars_init(char *filename)
 	vars->w = 1920;
 	vars->h = 1080;
 	vars->player = player_init(vars);
+	load_texture(vars);
 	vars->img.img = mlx_new_image(vars->mlx, vars->w, vars->h);
 	vars->win = mlx_new_window(vars->mlx, vars->w, vars->h, "cub3d");
 	return (vars);
