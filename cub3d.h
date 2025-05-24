@@ -72,8 +72,8 @@ typedef struct s_raycast
 	int		dir;
 	int		texture_x;
 	int		texture_y;
-	int		texture_pos;
-	int		step;
+	double	texture_pos;
+	double	step;
 }	t_raycast;
 
 typedef struct s_info

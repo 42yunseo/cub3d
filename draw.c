@@ -21,16 +21,15 @@ void	calc_texture_x(t_vars *vars, t_raycast *raycast)
 	{
 		wall_x = vars->player->pos_y + \
 		raycast->perp_wall_dist * raycast->ray_dir_y;
-		wall_x -= floor(wall_x);
 	}
 	else
 	{
 		wall_x = vars->player->pos_x + \
 		raycast->perp_wall_dist * raycast->ray_dir_x;
-		wall_x -= floor(wall_x);
 	}
+	wall_x -= floor(wall_x);
 	texture_x = (int)(wall_x * (double)TEXTURE_SIZE);
-	if (raycast->side == 0 && raycast->ray_dir_x < 0)
+	if (raycast->side == 0 && raycast->ray_dir_x > 0)
 		texture_x = TEXTURE_SIZE - texture_x - 1;
 	if (raycast->side == 1 && raycast->ray_dir_y < 0)
 		texture_x = TEXTURE_SIZE - texture_x - 1;
@@ -45,9 +44,8 @@ void	draw(t_vars *vars, t_raycast *raycast, int x)
 	calc_line_height(vars, vars->player, raycast);
 	raycast->dir = calc_wall_direction(raycast);
 	calc_texture_x(vars, raycast);
-	raycast->step = TEXTURE_SIZE / (double)raycast->line_height;
-	// raycast->texture_pos = (raycast->draw_start - vars->h / 2 + raycast->line_height / 2) * raycast->step;
-	raycast->texture_pos = 0;
+	raycast->step = (double)(1.0 * TEXTURE_SIZE) / (double)raycast->line_height;
+	raycast->texture_pos = (raycast->draw_start - vars->h / 2 + raycast->line_height / 2) * raycast->step;
 	y = raycast->draw_start;
 	while (y < raycast->draw_end)
 	{
