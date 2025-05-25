@@ -25,53 +25,55 @@ int	is_texture(char *line)
 	return (FALSE);
 }
 
-void	read_texture(char *line, t_info *map, t_vars *vars)
+void	read_texture(char *line, t_vars *vars)
 {
 	char	**token;
 
 	token = ft_split(line, ' ');
+	free(line);
 	if (token == NULL || get_token_length(token) != 2)
-		error_exit("invalid format in read_texture", vars);
+	{
+		token_free(token);
+		error_exit("Invalid Direction Format", vars);
+	}
 	token[1][ft_strlen(token[1]) - 1] = '\0';
 	if (ft_strncmp(token[0], "NO", 3) == 0)
-		map->north_path = ft_strdup(token[1]);
+		load_texture(vars, NORTH, token[1], token);
 	else if (ft_strncmp(token[0], "SO", 3) == 0)
-		map->south_path = ft_strdup(token[1]);
+		load_texture(vars, SOUTH, token[1], token);
 	else if (ft_strncmp(token[0], "WE", 3) == 0)
-		map->west_path = ft_strdup(token[1]);
+		load_texture(vars, WEST, token[1], token);
 	else if (ft_strncmp(token[0], "EA", 3) == 0)
-		map->east_path = ft_strdup(token[1]);
+		load_texture(vars, EAST, token[1], token);
 	else
 	{
 		token_free(token);
-		error_exit("duplicated Input", vars);
+		error_exit("Invalid Direction", vars);
 	}
 	token_free(token);
 }
 
-void	load_texture(t_vars *vars)
+void	load_texture(t_vars *vars, int dir, char *path, char **token)
 {
-	int		i;
 	t_image	*img;
 	int		w;
 	int		h;
 
-	i = 0;
-	vars->textures[NORTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->north_path, &w, &h);
-	vars->textures[SOUTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->south_path, &w, &h);
-	vars->textures[WEST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->west_path, &w, &h);
-	vars->textures[EAST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->east_path, &w, &h);
-	while (i < 4)
+	if (vars->textures[dir].img != NULL)
 	{
-		img = &vars->textures[i];
-		img->data = (int *)mlx_get_data_addr \
-		(img->img, &img->bpp, &img->line_size, &img->endian);
-		i++;
+		token_free(token);
+		error_exit("Duplicated Direction", vars);
 	}
+	vars->textures[dir].img = mlx_xpm_file_to_image \
+	(vars->mlx, path, &w, &h);
+	if (vars->textures[dir].img == NULL)
+	{
+		token_free(token);
+		error_exit("Invalid Direction File", vars);
+	}
+	img = &vars->textures[dir];
+	img->data = (int *)mlx_get_data_addr \
+	(img->img, &img->bpp, &img->line_size, &img->endian);
 }
 
 void	textures_free(t_vars *vars)

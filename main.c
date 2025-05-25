@@ -73,7 +73,6 @@ t_vars	*vars_init(char *filename)
 	vars->w = 1920;
 	vars->h = 1080;
 	vars->player = player_init(vars);
-	load_texture(vars);
 	vars->img.img = mlx_new_image(vars->mlx, vars->w, vars->h);
 	vars->win = mlx_new_window(vars->mlx, vars->w, vars->h, "cub3d");
 	return (vars);

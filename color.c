@@ -21,21 +21,22 @@ int	is_color(char *line)
 	return (FALSE);
 }
 
-void	read_color(char *line, t_info *map, t_vars *vars)
+void	read_color(char *line, t_info *info, t_vars *vars)
 {
 	char	**token;
 	int		*target;
 
 	token = ft_split(line, ' ');
+	free(line);
 	if (token == NULL || get_token_length(token) != 2)
 	{
 		token_free(token);
 		error_exit("invalid format", vars);
 	}
 	if (ft_strncmp(token[0], "F", 2) == 0)
-		target = &map->floor;
+		target = &info->floor;
 	if (ft_strncmp(token[0], "C", 2) == 0)
-		target = &map->ceiling;
+		target = &info->ceiling;
 	if (set_color(token[1], target) == FAILURE)
 	{
 		token_free(token);

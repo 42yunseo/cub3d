@@ -14,10 +14,6 @@
 
 void	free_info(t_info *info)
 {
-	free(info->north_path);
-	free(info->south_path);
-	free(info->west_path);
-	free(info->east_path);
 	token_free(info->map);
 	free(info);
 }

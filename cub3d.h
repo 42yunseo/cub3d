@@ -81,10 +81,6 @@ typedef struct s_info
 	char	**map;
 	int		width;
 	int		height;
-	char	*north_path;
-	char	*south_path;
-	char	*west_path;
-	char	*east_path;
 	int		floor;
 	int		ceiling;
 }	t_info;
@@ -129,8 +125,8 @@ void		parsing_element(char *line, t_info *map, t_vars *vars);
 
 // texture.c
 int			is_texture(char *line);
-void		read_texture(char *line, t_info *map, t_vars *vars);
-void		load_texture(t_vars *vars);
+void		read_texture(char *line, t_vars *vars);
+void		load_texture(t_vars *vars, int dir, char *path, char **token);
 void		textures_free(t_vars *vars);
 
 // color.c

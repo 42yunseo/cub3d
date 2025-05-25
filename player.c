@@ -21,14 +21,12 @@ void	real_move(t_vars *vars, t_player *p, double dx, double dy)
 
 	if (map[(int)(p->pos_y + dy)][(int)(p->pos_x)] != '1')
 		p->pos_y += dy;
-	printf("(pos x,y) : (%f, %f)\n", p->pos_x, p->pos_y);
-	printf("dir (x,y) : (%f, %f)\n", p->dir_x, p->dir_y);
 }
 
 void	move_func(t_vars *vars, t_player *p, int direction)
 {
-	double		dx = 0;
-	double		dy = 0;
+	double		dx;
+	double		dy;
 
 	if (direction == FORWARD)
 	{
@@ -45,71 +43,14 @@ void	move_func(t_vars *vars, t_player *p, int direction)
 		dx = -p->dir_y * MV_SPEED;
 		dy = p->dir_x * MV_SPEED;
 	}
-	else if (direction == RIGHT)
+	else
 	{
 		dx = p->dir_y * MV_SPEED;
 		dy = -p->dir_x * MV_SPEED;
 	}
-
 	real_move(vars, p, dx, dy);
 	render(vars);
 }
-
-// void	move(t_vars *vars, int direction)
-// {
-// 	char		**map;
-// 	t_player	*p;
-
-// 	map = vars->info->map;
-// 	p = vars->player;
-// 	if (direction == FORWARD)
-// 	{
-// 		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_x * MV_SPEED)] != '1' \
-// 		&& map[(int)(p->pos_y + p->dir_y * MV_SPEED)][(int)p->pos_x] != '1')
-// 		{
-// 			p->pos_x += p->dir_x * MV_SPEED;
-// 			p->pos_y += p->dir_y * MV_SPEED;
-// 		}
-// 	}
-// 	if (direction == BACKWARD)
-// 	{
-// 		if (map[(int)p->pos_y][(int)(p->pos_x - p->dir_x * MV_SPEED)] != '1' \
-// 		&& map[(int)(p->pos_y - p->dir_y * MV_SPEED)][(int)p->pos_x] != '1')
-// 		{
-// 			p->pos_x -= p->dir_x * MV_SPEED;
-// 			p->pos_y -= p->dir_y * MV_SPEED;
-// 		}
-// 	}
-// 	render(vars);
-// }
-
-// void	move2(t_vars *vars, int direction)
-// {
-// 	char		**map;
-// 	t_player	*p;
-
-// 	map = vars->info->map;
-// 	p = vars->player;
-// 	if (direction == LEFT)
-// 	{
-// 		if (map[(int)p->pos_y][(int)(p->pos_x - p->dir_y * MV_SPEED)] != '1' \
-// 		&& map[(int)(p->pos_y + p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
-// 		{
-// 			p->pos_x -= p->dir_y * MV_SPEED;
-// 			p->pos_y += p->dir_x * MV_SPEED;
-// 		}
-// 	}
-// 	if (direction == RIGHT)
-// 	{
-// 		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_y * MV_SPEED)] != '1' \
-// 		&& map[(int)(p->pos_y - p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
-// 		{
-// 			p->pos_x += p->dir_y * MV_SPEED;
-// 			p->pos_y -= p->dir_x * MV_SPEED;
-// 		}
-// 	}
-// 	render(vars);
-// }
 
 void	set_direction(t_player *p, char dir)
 {

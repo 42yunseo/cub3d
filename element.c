@@ -12,15 +12,15 @@
 
 #include "cub3d.h"
 
-void	parsing_element(char *line, t_info *map, t_vars *vars)
+void	parsing_element(char *line, t_info *info, t_vars *vars)
 {
 	if (is_texture(line) == TRUE)
-		read_texture(line, map, vars);
+		read_texture(line, vars);
 	else
-		read_color(line, map, vars);
+		read_color(line, info, vars);
 }
 
-int	read_element(int fd, t_info *map, t_vars *vars)
+int	read_element(int fd, t_info *info, t_vars *vars)
 {
 	char	*line;
 	int		cnt;
@@ -37,13 +37,12 @@ int	read_element(int fd, t_info *map, t_vars *vars)
 			continue ;
 		}
 		else if (is_texture(line) == TRUE || is_color(line) == TRUE)
-			parsing_element(line, map, vars);
+			parsing_element(line, info, vars);
 		else
 		{
 			free(line);
 			error_exit("Invalid Format in read_element", vars);
 		}
-		free(line);
 		cnt++;
 	}
 	return (SUCCESS);
