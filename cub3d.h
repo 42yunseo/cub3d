@@ -47,8 +47,8 @@
 # define WEST		2
 # define EAST		3
 
-# define MV_SPEED	0.5
-# define ROT_SPEED	0.131
+# define MV_SPEED	0.131
+# define ROT_SPEED	0.2
 # define TEXTURE_SIZE	64
 # define BTN_EXIT 17
 
@@ -148,6 +148,12 @@ int			read_map(int fd, t_info *info, t_vars *vars);
 
 // player.c
 t_player	*player_init(t_vars *vars);
+// void		move(t_vars *vars, int direction);
+// void		move2(t_vars *vars, int direction);
+void		move_func(t_vars *vars, t_player *p, int direction);
+void		real_move(t_vars *vars, t_player *p, double nx, double ny);
+
+
 
 // utils.c
 void		error_exit(char *msg, t_vars *vars);

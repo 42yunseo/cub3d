@@ -46,13 +46,13 @@ int	key_press(int keycode, t_vars *vars)
 	if (keycode == KEY_ESC)
 		mlx_loop_end(vars->mlx);
 	if (keycode == KEY_W)
-		move(vars, FORWARD);
+		move_func(vars, vars->player, FORWARD);
 	if (keycode == KEY_A)
-		move2(vars, LEFT);
+		move_func(vars, vars->player, LEFT);
 	if (keycode == KEY_S)
-		move(vars, BACKWARD);
+		move_func(vars, vars->player, BACKWARD);
 	if (keycode == KEY_D)
-		move2(vars, RIGHT);
+		move_func(vars, vars->player, RIGHT);
 	if (keycode == KEY_LEFT)
 		rotate(vars, LEFT);
 	if (keycode == KEY_RIGHT)

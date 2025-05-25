@@ -80,6 +80,11 @@ void	textures_free(t_vars *vars)
 
 	i = 0;
 	while (i < 4)
+	{
 		if (vars->textures[i].img != NULL)
-			mlx_destroy_image(vars->mlx, vars->textures[i++].img);
+		{
+			mlx_destroy_image(vars->mlx, vars->textures[i].img);
+		}
+		i++;
+	}
 }
