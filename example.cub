@@ -1,9 +1,9 @@
-NO ./textures/warn.xpm
-SO ./textures/wall_se.xpm
+NO ./textures/wall_n.xpm
+SO ./textures/wall_s.xpm
 WE ./textures/wall_w.xpm
 EA ./textures/wall_e.xpm
 
-C 144,178,149
+C 144,178,255
 F 120,130,255
 
 

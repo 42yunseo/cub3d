@@ -149,8 +149,6 @@ t_player	*player_init(t_vars *vars);
 void		move_func(t_vars *vars, t_player *p, int direction);
 void		real_move(t_vars *vars, t_player *p, double nx, double ny);
 
-
-
 // utils.c
 void		error_exit(char *msg, t_vars *vars);
 void		exit_game(t_vars *vars);

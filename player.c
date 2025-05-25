@@ -14,11 +14,11 @@
 
 void	real_move(t_vars *vars, t_player *p, double dx, double dy)
 {
-	char	**map = vars->info->map;
+	char	**map;
 
+	map = vars->info->map;
 	if (map[(int)(p->pos_y)][(int)(p->pos_x + dx)] != '1')
 		p->pos_x += dx;
-
 	if (map[(int)(p->pos_y + dy)][(int)(p->pos_x)] != '1')
 		p->pos_y += dy;
 }

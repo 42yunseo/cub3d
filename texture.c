@@ -48,7 +48,7 @@ void	read_texture(char *line, t_vars *vars)
 	else
 	{
 		token_free(token);
-		error_exit("Invalid Direction", vars);
+		error_exit("Invalid Identifier", vars);
 	}
 	token_free(token);
 }
@@ -69,7 +69,7 @@ void	load_texture(t_vars *vars, int dir, char *path, char **token)
 	if (vars->textures[dir].img == NULL)
 	{
 		token_free(token);
-		error_exit("Invalid Direction File", vars);
+		error_exit("Invalid Texture File", vars);
 	}
 	img = &vars->textures[dir];
 	img->data = (int *)mlx_get_data_addr \
@@ -84,9 +84,7 @@ void	textures_free(t_vars *vars)
 	while (i < 4)
 	{
 		if (vars->textures[i].img != NULL)
-		{
 			mlx_destroy_image(vars->mlx, vars->textures[i].img);
-		}
 		i++;
 	}
 }

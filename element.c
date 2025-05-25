@@ -34,7 +34,6 @@ int	read_element(int fd, t_info *info, t_vars *vars)
 		if (*line == '\n')
 		{
 			free(line);
-			line = NULL;
 			continue ;
 		}
 		else if (is_texture(line) == TRUE || is_color(line) == TRUE)
@@ -42,7 +41,6 @@ int	read_element(int fd, t_info *info, t_vars *vars)
 		else
 		{
 			free(line);
-			line = NULL;
 			error_exit("Invalid Identifier", vars);
 		}
 		cnt++;

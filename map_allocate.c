@@ -26,7 +26,7 @@ t_list	*fetch_map(int fd, t_info *info, t_vars *vars)
 		{
 			free(line);
 			line = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		if (*line == '\n')
 			error_exit("fetch_map error", vars);

@@ -41,9 +41,28 @@ void	read_color(char *line, t_info *info, t_vars *vars)
 	if (set_color(token[1], target) == FAILURE)
 	{
 		token_free(token);
-		error_exit("Parsing Error in Color", vars);
+		error_exit("Invalid Color", vars);
 	}
 	token_free(token);
+}
+
+int	check_rgb(int rgb_int, char *rgb_str)
+{
+	char	*tmp;
+
+	tmp = ft_itoa(rgb_int);
+	if (ft_strncmp(rgb_str, tmp, ft_strlen(rgb_str)) != 0)
+	{
+		free(tmp);
+		return (FAILURE);
+	}
+	if (rgb_int < 0 || rgb_int > 255)
+	{
+		free(tmp);
+		return (FAILURE);
+	}
+	free(tmp);
+	return (SUCCESS);
 }
 
 int	set_color(char *color, int *target)
@@ -62,7 +81,7 @@ int	set_color(char *color, int *target)
 	while (i < 3)
 	{
 		rgb[i] = ft_atoi(token[i]);
-		if (rgb[i] < 0 || rgb[i] > 255)
+		if (check_rgb(rgb[i], token[i]) == FAILURE)
 		{
 			token_free(token);
 			return (FAILURE);
