@@ -61,17 +61,22 @@ int	check_zero(t_info *info, int width, int height)
 
 int	map_unit_check(t_info *info, int i, int j, int *cnt)
 {
-	if (info->map[i][j] == ' ')
+	char	c;
+
+	c = info->map[i][j];
+	if (c == ' ')
 	{
 		if (!check_space(info, i, j))
 			return (0);
 	}
-	else if (info->map[i][j] == '0')
+	else if (c == '0')
 	{
 		if (!check_zero(info, i, j))
 			return (0);
 	}
-	else if (info->map[i][j] != '1' && ++(*cnt) > 1)
+	else if (!(c == 'N' || c == 'E' || c == 'W' || c == 'S' || c == '1'))
+		return (0);
+	else if (c != '1' && ++(*cnt) > 1)
 		return (0);
 	return (1);
 }
