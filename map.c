@@ -100,7 +100,7 @@ int	map_check(t_info *info)
 		}
 		i++;
 	}
-	return (1);
+	return (cnt == 1);
 }
 
 int	read_map(int fd, t_info *info, t_vars *vars)
