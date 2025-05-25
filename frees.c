@@ -28,6 +28,7 @@ void	free_vars(t_vars *vars)
 		free(vars->player);
 	if (vars->img.img != NULL)
 		mlx_destroy_image(vars->mlx, vars->img.img);
+	textures_free(vars);
 	if (vars->info != NULL)
 		free_info(vars->info);
 	if (vars->mlx != NULL && vars->win != NULL)

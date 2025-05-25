@@ -12,18 +12,6 @@
 
 #include "cub3d.h"
 
-void	print_elements(t_info *info)
-{
-	printf("north : %s\n", info->north_path);
-	printf("sorth : %s\n", info->south_path);
-	printf("west : %s\n", info->west_path);
-	printf("east : %s\n", info->east_path);
-	printf("floor rgb : ");
-	printf("%x\n", info->floor);
-	printf("ceiling rgb : ");
-	printf("%x\n", info->ceiling);
-}
-
 int	read_file(char *filename, t_vars *vars)
 {
 	int	fd;
@@ -45,7 +33,6 @@ t_info	*info_init(char *filename, t_vars *vars)
 	info = (t_info *)malloc(sizeof(t_info));
 	ft_memset(info, 0, sizeof(t_info));
 	read_element(fd, info, vars);
-	print_elements(info);
 	read_map(fd, info, vars);
 	close(fd);
 	return (info);

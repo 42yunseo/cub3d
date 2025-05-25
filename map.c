@@ -113,6 +113,5 @@ int	read_map(int fd, t_info *info, t_vars *vars)
 		error_exit("map fail", vars);
 		return (0);
 	}
-	printf("map success!!\n");
 	return (1);
 }

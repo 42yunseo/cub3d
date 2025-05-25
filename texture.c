@@ -53,23 +53,33 @@ void	load_texture(t_vars *vars)
 {
 	int		i;
 	t_image	*img;
+	int		w;
+	int		h;
 
 	i = 0;
 	vars->textures[NORTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->north_path, NULL, NULL);
-	printf("%p\n", vars->textures[NORTH].img);
+	(vars->mlx, vars->info->north_path, &w, &h);
 	vars->textures[SOUTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->south_path, NULL, NULL);
+	(vars->mlx, vars->info->south_path, &w, &h);
 	vars->textures[WEST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->west_path, NULL, NULL);
+	(vars->mlx, vars->info->west_path, &w, &h);
 	vars->textures[EAST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->east_path, NULL, NULL);
+	(vars->mlx, vars->info->east_path, &w, &h);
 	while (i < 4)
 	{
 		img = &vars->textures[i];
-		printf("%p\n", img);
 		img->data = (int *)mlx_get_data_addr \
 		(img->img, &img->bpp, &img->line_size, &img->endian);
 		i++;
 	}
+}
+
+void	textures_free(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+		if (vars->textures[i].img != NULL)
+			mlx_destroy_image(vars->mlx, vars->textures[i++].img);
 }

@@ -100,7 +100,7 @@ void	rotate(t_vars *vars, int direction)
 int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_ESC)
-		exit_game(vars);
+		mlx_loop_end(vars->mlx);
 	if (keycode == KEY_W)
 		move(vars, FORWARD);
 	if (keycode == KEY_A)

@@ -131,6 +131,7 @@ void		parsing_element(char *line, t_info *map, t_vars *vars);
 int			is_texture(char *line);
 void		read_texture(char *line, t_info *map, t_vars *vars);
 void		load_texture(t_vars *vars);
+void		textures_free(t_vars *vars);
 
 // color.c
 int			is_color(char *line);
@@ -141,7 +142,6 @@ int			set_color(char *color, int *target);
 t_list		*fetch_map(int fd, t_info *info, t_vars *vars);
 void		list_to_array_map(t_list *list, char **map, int x, int y);
 char		**map_allocate(int x, int y);
-// void	free_map(char **map, int max_idx);
 
 // map.c
 int			read_map(int fd, t_info *info, t_vars *vars);
@@ -162,7 +162,6 @@ void		set_step_sidedist(t_player *p, t_raycast *raycast);
 void		dda(t_vars *vars, t_raycast *raycast);
 
 // draw.c
-// void	draw_line(t_vars *vars, t_img *img, int x, int line_height);
 void		draw(t_vars *vars, t_raycast *raycast, int x);
 void		calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
 int			calc_wall_direction(t_raycast *raycast);
