@@ -55,7 +55,7 @@ void	read_texture(char *line, t_vars *vars)
 
 void	load_texture(t_vars *vars, int dir, char *path, char **token)
 {
-	t_image	*img;
+	t_img	*img;
 	int		w;
 	int		h;
 

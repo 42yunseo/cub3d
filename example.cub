@@ -1,10 +1,17 @@
 NO ./textures/warn.xpm
-SO ./textures/wall_s.xpm
+SO ./textures/wall_se.xpm
 WE ./textures/wall_w.xpm
 EA ./textures/wall_e.xpm
 
-F 120,130,160
 C 144,178,149
+F 120,130,255
+
+
+
+
+
+
+
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000001000001

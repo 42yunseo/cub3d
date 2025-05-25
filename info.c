@@ -24,16 +24,14 @@ int	read_file(char *filename, t_vars *vars)
 	return (fd);
 }
 
-t_info	*info_init(char *filename, t_vars *vars)
+void	info_init(char *filename, t_vars *vars)
 {
-	t_info	*info;
 	int		fd;
 
 	fd = read_file(filename, vars);
-	info = (t_info *)malloc(sizeof(t_info));
-	ft_memset(info, 0, sizeof(t_info));
-	read_element(fd, info, vars);
-	read_map(fd, info, vars);
+	vars->info = (t_info *)malloc(sizeof(t_info));
+	ft_memset(vars->info, 0, sizeof(t_info));
+	read_element(fd, vars->info, vars);
+	read_map(fd, vars->info, vars);
 	close(fd);
-	return (info);
 }

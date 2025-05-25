@@ -26,12 +26,13 @@ void	read_color(char *line, t_info *info, t_vars *vars)
 	char	**token;
 	int		*target;
 
+	line[ft_strlen(line) - 1] = '\0';
 	token = ft_split(line, ' ');
 	free(line);
 	if (token == NULL || get_token_length(token) != 2)
 	{
 		token_free(token);
-		error_exit("invalid format", vars);
+		error_exit("Invalid color format", vars);
 	}
 	if (ft_strncmp(token[0], "F", 2) == 0)
 		target = &info->floor;
@@ -47,19 +48,28 @@ void	read_color(char *line, t_info *info, t_vars *vars)
 
 int	set_color(char *color, int *target)
 {
+	int		i;
 	char	**token;
 	int		rgb[3];
 
 	token = ft_split(color, ',');
-	if (token == NULL || get_token_length(token) != 3)
+	if (*target != 0 || token == NULL || get_token_length(token) != 3)
 	{
 		token_free(token);
 		return (FAILURE);
 	}
-	rgb[0] = ft_atoi(token[0]);
-	rgb[1] = ft_atoi(token[1]);
-	rgb[2] = ft_atoi(token[2]);
-	*target = (0x00 << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[0];
+	i = 0;
+	while (i < 3)
+	{
+		rgb[i] = ft_atoi(token[i]);
+		if (rgb[i] < 0 || rgb[i] > 255)
+		{
+			token_free(token);
+			return (FAILURE);
+		}
+		i++;
+	}
+	*target = (0x00 << 24) | (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
 	token_free(token);
 	return (SUCCESS);
 }

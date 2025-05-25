@@ -42,7 +42,7 @@ void	render(t_vars *vars)
 {
 	t_player	*p;
 	t_raycast	raycast;
-	t_image		*img;
+	t_img		*img;
 	int			x;
 
 	x = 0;

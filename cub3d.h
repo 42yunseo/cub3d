@@ -102,14 +102,14 @@ typedef struct s_img
 	int		bpp;
 	int		line_size;
 	int		endian;
-}	t_image;
+}	t_img;
 
 typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
-	t_image		img;
-	t_image		textures[4];
+	t_img		img;
+	t_img		textures[4];
 	int			w;
 	int			h;
 	t_info		*info;
@@ -117,7 +117,7 @@ typedef struct s_vars
 }	t_vars;
 
 // info.c
-t_info		*info_init(char *filename, t_vars *vars);
+void		info_init(char *filename, t_vars *vars);
 
 // element.c
 int			read_element(int fd, t_info *map, t_vars *vars);

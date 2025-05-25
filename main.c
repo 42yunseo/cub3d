@@ -67,7 +67,7 @@ t_vars	*vars_init(char *filename)
 	vars = (t_vars *)malloc(sizeof(t_vars));
 	ft_memset(vars, 0, sizeof(t_vars));
 	vars->mlx = mlx_init();
-	vars->info = info_init(filename, vars);
+	info_init(filename, vars);
 	if (vars->info == NULL)
 		exit_game(vars);
 	vars->w = 1920;
