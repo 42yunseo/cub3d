@@ -12,62 +12,6 @@
 
 #include "cub3d.h"
 
-void	move(t_vars *vars, int direction)
-{
-	char		**map;
-	t_player	*p;
-
-	map = vars->info->map;
-	p = vars->player;
-	if (direction == FORWARD)
-	{
-		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_x * MV_SPEED)] != '1' \
-		&& map[(int)(p->pos_y + p->dir_y * MV_SPEED)][(int)p->pos_x] != '1')
-		{
-			p->pos_x += p->dir_x * MV_SPEED;
-			p->pos_y += p->dir_y * MV_SPEED;
-		}
-	}
-	if (direction == BACKWARD)
-	{
-		if (map[(int)p->pos_y][(int)(p->pos_x - p->dir_x * MV_SPEED)] != '1' \
-		&& map[(int)(p->pos_y - p->dir_y * MV_SPEED)][(int)p->pos_x] != '1')
-		{
-			p->pos_x -= p->dir_x * MV_SPEED;
-			p->pos_y -= p->dir_y * MV_SPEED;
-		}
-	}
-	render(vars);
-}
-
-void	move2(t_vars *vars, int direction)
-{
-	char		**map;
-	t_player	*p;
-
-	map = vars->info->map;
-	p = vars->player;
-	if (direction == LEFT)
-	{
-		if (map[(int)p->pos_y][(int)(p->pos_x - p->dir_y * MV_SPEED)] != '1' \
-		&& map[(int)(p->pos_y + p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
-		{
-			p->pos_x -= p->dir_y * MV_SPEED;
-			p->pos_y += p->dir_x * MV_SPEED;
-		}
-	}
-	if (direction == RIGHT)
-	{
-		if (map[(int)p->pos_y][(int)(p->pos_x + p->dir_y * MV_SPEED)] != '1' \
-		&& map[(int)(p->pos_y - p->dir_x * MV_SPEED)][(int)p->pos_x] != '1')
-		{
-			p->pos_x += p->dir_y * MV_SPEED;
-			p->pos_y -= p->dir_x * MV_SPEED;
-		}
-	}
-	render(vars);
-}
-
 void	rotate(t_vars *vars, int direction)
 {
 	double		old_dir_x;
