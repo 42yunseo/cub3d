@@ -45,7 +45,7 @@ t_info	*info_init(char *filename, t_vars *vars)
 	info = (t_info *)malloc(sizeof(t_info));
 	ft_memset(info, 0, sizeof(t_info));
 	read_element(fd, info, vars);
-	print_elements(info); // for debugging
+	print_elements(info);
 	read_map(fd, info, vars);
 	close(fd);
 	return (info);

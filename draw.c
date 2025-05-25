@@ -45,13 +45,15 @@ void	draw(t_vars *vars, t_raycast *raycast, int x)
 	raycast->dir = calc_wall_direction(raycast);
 	calc_texture_x(vars, raycast);
 	raycast->step = (double)(1.0 * TEXTURE_SIZE) / (double)raycast->line_height;
-	raycast->texture_pos = (raycast->draw_start - vars->h / 2 + raycast->line_height / 2) * raycast->step;
+	raycast->texture_pos = \
+	(raycast->draw_start - vars->h / 2 + raycast->line_height / 2) \
+	* raycast->step;
 	y = raycast->draw_start;
 	while (y < raycast->draw_end)
 	{
 		raycast->texture_y = (int)raycast->texture_pos & (TEXTURE_SIZE - 1);
 		raycast->texture_pos += raycast->step;
-		color = vars->textures[raycast->dir]\
+		color = vars->textures[raycast->dir] \
 		.data[TEXTURE_SIZE * raycast->texture_y + raycast->texture_x];
 		vars->img.data[vars->w * y + x] = color;
 		y++;

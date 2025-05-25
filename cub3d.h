@@ -121,54 +121,53 @@ typedef struct s_vars
 }	t_vars;
 
 // info.c
-t_info	*info_init(char *filename, t_vars *vars);
+t_info		*info_init(char *filename, t_vars *vars);
 
 // element.c
-int		read_element(int fd, t_info *map, t_vars *vars);
-void	parsing_element(char *line, t_info *map, t_vars *vars);
+int			read_element(int fd, t_info *map, t_vars *vars);
+void		parsing_element(char *line, t_info *map, t_vars *vars);
 
 // texture.c
-int		is_texture(char *line);
-void	read_texture(char *line, t_info *map, t_vars *vars);
-void	load_texture(t_vars *vars);
+int			is_texture(char *line);
+void		read_texture(char *line, t_info *map, t_vars *vars);
+void		load_texture(t_vars *vars);
 
 // color.c
-int		is_color(char *line);
-void	read_color(char *ine, t_info *map, t_vars *vars);
-int		set_color(char *color, int *target);
+int			is_color(char *line);
+void		read_color(char *ine, t_info *map, t_vars *vars);
+int			set_color(char *color, int *target);
 
 // map_allocate.c
-t_list	*fetch_map(int fd, t_info *info, t_vars *vars);
-void	list_to_array_map(t_list *list, char **map, int x, int y);
-char	**map_allocate(int x, int y);
+t_list		*fetch_map(int fd, t_info *info, t_vars *vars);
+void		list_to_array_map(t_list *list, char **map, int x, int y);
+char		**map_allocate(int x, int y);
 // void	free_map(char **map, int max_idx);
 
 // map.c
-int		read_map(int fd, t_info *info, t_vars *vars);
+int			read_map(int fd, t_info *info, t_vars *vars);
 
 // player.c
 t_player	*player_init(t_vars *vars);
 
 // utils.c
-void	error_exit(char *msg, t_vars *vars);
-void	exit_game(t_vars *vars);
-void	token_free(char **token);
-int		get_token_length(char **token);
+void		error_exit(char *msg, t_vars *vars);
+void		exit_game(t_vars *vars);
+void		token_free(char **token);
+int			get_token_length(char **token);
 
 // render.c
-void    render(t_vars *vars);
-void	init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x);
-void	set_step_sidedist(t_player *p, t_raycast *raycast);
-void	dda(t_vars *vars, t_raycast *raycast);
+void		render(t_vars *vars);
+void		init_raycast(t_vars *vars, t_player *p, t_raycast *raycast, int x);
+void		set_step_sidedist(t_player *p, t_raycast *raycast);
+void		dda(t_vars *vars, t_raycast *raycast);
 
 // draw.c
 // void	draw_line(t_vars *vars, t_img *img, int x, int line_height);
-void	draw(t_vars *vars, t_raycast *raycast, int x);
-void	calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
-int		calc_wall_direction(t_raycast *raycast);
+void		draw(t_vars *vars, t_raycast *raycast, int x);
+void		calc_line_height(t_vars *vars, t_player *p, t_raycast *raycast);
+int			calc_wall_direction(t_raycast *raycast);
 
 // frees.c
-void    free_vars(t_vars *vars);
-
+void		free_vars(t_vars *vars);
 
 #endif /* CUB3D_H */

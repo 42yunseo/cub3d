@@ -32,9 +32,7 @@ void	read_texture(char *line, t_info *map, t_vars *vars)
 	token = ft_split(line, ' ');
 	if (token == NULL || get_token_length(token) != 2)
 		error_exit("invalid format in read_texture", vars);
-
-	token[1][ft_strlen(token[1]) - 1] = '\0';	
-
+	token[1][ft_strlen(token[1]) - 1] = '\0';
 	if (ft_strncmp(token[0], "NO", 3) == 0)
 		map->north_path = ft_strdup(token[1]);
 	else if (ft_strncmp(token[0], "SO", 3) == 0)
@@ -53,29 +51,25 @@ void	read_texture(char *line, t_info *map, t_vars *vars)
 
 void	load_texture(t_vars *vars)
 {
-	int	i;
+	int		i;
 	t_image	*img;
-
-	int	w, h;
 
 	i = 0;
 	vars->textures[NORTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->north_path, &w, &h);
+	(vars->mlx, vars->info->north_path, NULL, NULL);
 	printf("%p\n", vars->textures[NORTH].img);
 	vars->textures[SOUTH].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->south_path, &w, &h);
+	(vars->mlx, vars->info->south_path, NULL, NULL);
 	vars->textures[WEST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->west_path, &w, &h);
+	(vars->mlx, vars->info->west_path, NULL, NULL);
 	vars->textures[EAST].img = mlx_xpm_file_to_image \
-	(vars->mlx, vars->info->east_path, &w, &h);
+	(vars->mlx, vars->info->east_path, NULL, NULL);
 	while (i < 4)
 	{
 		img = &vars->textures[i];
 		printf("%p\n", img);
-		printf("img->img : %p\n", img->img);
-		img->data = (int *)mlx_get_data_addr\
+		img->data = (int *)mlx_get_data_addr \
 		(img->img, &img->bpp, &img->line_size, &img->endian);
-		printf("line_size = %d\n", img->line_size);
 		i++;
 	}
 }

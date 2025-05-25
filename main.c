@@ -54,7 +54,7 @@ void	move2(t_vars *vars, int direction)
 		{
 			p->pos_x -= p->dir_y * MV_SPEED;
 			p->pos_y += p->dir_x * MV_SPEED;
-		}	
+		}
 	}
 	if (direction == RIGHT)
 	{
