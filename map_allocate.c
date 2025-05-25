@@ -17,26 +17,25 @@ t_list	*fetch_map(int fd, t_info *info, t_vars *vars)
 	t_list	*list;
 	t_list	*tmp;
 	char	*line;
-	int		max_width;
 
 	list = NULL;
-	max_width = -1;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+		if (*line == '\n' && list == NULL)
+		{
+			free(line);
+			continue;
+		}
 		if (*line == '\n')
 			error_exit("fetch_map error", vars);
 		tmp = ft_lstnew(ft_substr(line, 0, ft_strchr(line, '\n') - line));
-		if ((int)ft_strlen(tmp->content) > max_width)
-			max_width = ft_strlen(tmp->content);
-		if (list != NULL)
-			ft_lstadd_back(&list, tmp);
-		else
-			list = tmp;
+		if ((int)ft_strlen(tmp->content) > info->width)
+			info->width = ft_strlen(tmp->content);
+		ft_lstadd_back(&list, tmp);
 		free(line);
 		line = get_next_line(fd);
 	}
-	info->width = max_width;
 	info->height = ft_lstsize(list);
 	return (list);
 }
